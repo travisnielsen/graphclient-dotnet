@@ -1,0 +1,47 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- task: UseDotNet@2
+  displayName: 'Use .NET Core sdk'
+  inputs:
+    packageType: sdk
+    version: 3.1.100
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: 'src/GroupsApiB2C.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    command: 'build'
+    projects: 'src/GroupsApiB2C.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    arguments: '--configuration $(BuildConfiguration) --output "$(build.artifactstagingdirectory)"'
+    workingDirectory: 'src'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+
+
+
