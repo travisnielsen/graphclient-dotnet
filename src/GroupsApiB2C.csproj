@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="microsoft.identitymodel.clients.activedirectory" Version="5.2.6" />
-    <PackageReference Include="newtonsoft.json" Version="12.0.3" />
+    <PackageReference Include="newtonsoft.json" Version="13.0.1" />
   </ItemGroup>
 
 
